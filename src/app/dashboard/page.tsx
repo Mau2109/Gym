@@ -87,6 +87,8 @@ export default function DashboardPage() {
               <>
                
                 <NavigationCard href="/SolicitudesEntrenador" icon={<ChartBarIcon />} title="solicitudes" description="Registra el progreso de tus alumnos asignados." />
+                <NavigationCard href="/NotificacionMantenimiento" icon={<CheckCircleIcon/>} title="Notificacion Mantenimiento" description="Informar sobre el equipos dañados." />
+
               </>
             )}
 
