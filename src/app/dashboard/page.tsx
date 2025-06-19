@@ -62,7 +62,7 @@ export default function DashboardPage() {
                 <NavigationCard href="/inscripciones" icon={<ClipboardListIcon />} title="Inscribirse a Clases" description="Ver clases disponibles y gestionar tus inscripciones." />
                 <NavigationCard href="/progreso" icon={<ChartBarIcon />} title="Mi Progreso Físico" description="Registra y visualiza tu evolución y metas." />
                 <NavigationCard href="/asistencia" icon={<CheckCircleIcon />} title="Registrar Asistencia" description="Confirma tu asistencia a la clase de hoy." />
-                <NavigationCard href="/AsignacionEntrenador" icon={<CheckCircleIcon />} title="Solicitar asigancion entrenador" description="Vizualizar entrenadores disponibles " />
+                <NavigationCard href="/AsignacionEntrenador" icon={<CheckCircleIcon />} title="Solicitar asignacion entrenador" description="Vizualizar entrenadores disponibles" />
               </>
             )}
 
@@ -78,6 +78,8 @@ export default function DashboardPage() {
             {session.rol === 'administrador' && (
               <>
                  <NavigationCard href="/registro" icon={<UserPlusIcon />} title="Registrar Usuarios" description="Dar de alta a miembros, recepcionistas y entrenadores." />
+                 <NavigationCard href="/NotificacionMantenimiento" icon={<CheckCircleIcon/>} title="Notificacion Mantenimiento" description="Informar sobre el equipos dañados." />
+
                  {/* Aquí se podrían añadir más tarjetas para el administrador en el futuro */}
               </>
             )}
