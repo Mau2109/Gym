@@ -77,22 +77,6 @@ export default function DashboardPage() {
           </button>
         </div>
       </header>
-<<<<<<< HEAD
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            {/* Opciones para Miembros */}
-            {session.rol === 'miembro' && (
-              <>
-                <NavigationCard href="/inscripciones" icon={<ClipboardListIcon />} title="Inscribirse a Clases" description="Ver clases disponibles y gestionar tus inscripciones." />
-                <NavigationCard href="/progreso" icon={<ChartBarIcon />} title="Mi Progreso Físico" description="Registra y visualiza tu evolución y metas." />
-                <NavigationCard href="/asistencia" icon={<CheckCircleIcon />} title="Registrar Asistencia" description="Confirma tu asistencia a la clase de hoy." />
-                <NavigationCard href="/AsignacionEntrenador" icon={<CheckCircleIcon />} title="Solicitar asignacion entrenador" description="Vizualizar entrenadores disponibles" />
-              </>
-            )}
-=======
->>>>>>> Chris
 
       <section className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -126,27 +110,17 @@ export default function DashboardPage() {
             </>
           )}
 
-             {/* Opciones para Administradores */}
-            {session.rol === 'administrador' && (
-              <>
-                 <NavigationCard href="/registro" icon={<UserPlusIcon />} title="Registrar Usuarios" description="Dar de alta a miembros, recepcionistas y entrenadores." />
-                 <NavigationCard href="/NotificacionMantenimiento" icon={<CheckCircleIcon/>} title="Notificacion Mantenimiento" description="Informar sobre el equipos dañados." />
-
-                 {/* Aquí se podrían añadir más tarjetas para el administrador en el futuro */}
-              </>
-            )}
-
-            {/* Opciones Recepcionista */}
-            {session.rol === 'recepcionista' && (
-              <>
-                <NavigationCard
-                  href="/registro"
-                  icon={<UserPlusIcon />}
-                  title="Registrar Nuevo Miembro"
-                  description="Dar de alta a nuevos clientes en el sistema."
-                />
-              </>
-            )}
+          {/* Opciones Recepcionista */}
+          {session.rol === 'recepcionista' && (
+            <>
+              <NavigationCard
+                href="/registro"
+                icon={<UserPlusIcon />}
+                title="Registrar Nuevo Miembro"
+                description="Dar de alta a nuevos clientes en el sistema."
+              />
+            </>
+          )}
 
           {/* Opciones Administrador */}
           {session.rol === 'administrador' && (
@@ -156,6 +130,12 @@ export default function DashboardPage() {
                 icon={<UserPlusIcon />}
                 title="Registrar Usuarios"
                 description="Dar de alta a miembros, recepcionistas y entrenadores."
+              />
+              <NavigationCard
+                href="/NotificacionMantenimiento"
+                icon={<UserPlusIcon />}
+                title="Notificaciones de mantenimiento"
+                description="Mostrar reportes de equipos dañados."
               />
             </>
           )}
