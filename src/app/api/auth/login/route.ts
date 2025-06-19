@@ -12,7 +12,20 @@ export async function POST(request: Request) {
     const gestor = new GestorAutenticacion();
     const usuario = await gestor.iniciarSesion(correoElectronico, contrasena);
 
-    return NextResponse.json(usuario, { status: 200 });
+    // Validar que usuario exista y filtrar datos sensibles
+    if (!usuario) {
+      return NextResponse.json({ message: "Credenciales inválidas." }, { status: 401 });
+    }
+
+    // Retornamos sólo los campos esenciales para la sesión
+    const sessionData = {
+      idUsuario: usuario.idUsuario,
+      nombreCompleto: usuario.nombreCompleto,
+      correoElectronico: usuario.correoElectronico,
+      rol: usuario.rol,
+    };
+
+    return NextResponse.json(sessionData, { status: 200 });
 
   } catch (error: any) {
     if (error.message.startsWith("Credenciales inválidas")) {
