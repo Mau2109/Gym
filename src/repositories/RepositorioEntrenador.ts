@@ -56,15 +56,6 @@ export class RepositorioEntrenador {
       connection.release();
     }
   }
-
-  public async obtenerAlumnosAsignados(idEntrenador: string): Promise<{ idUsuario: string; nombreCompleto: string }[]> {
-    const sql = `
-      SELECT u.idUsuario, u.nombreCompleto
-      FROM SolicitudEntrenador se
-      JOIN usuarios u ON se.miembro_id = u.idUsuario
-      WHERE se.entrenador_id = ? AND se.estado = 'aprobado'
-    `;
-    const [rows]: any[] = await pool.execute(sql, [idEntrenador]);
-    return rows;
-  }
+ 
+  
 }

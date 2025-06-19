@@ -21,7 +21,6 @@ export class GestorEntrenador {
       throw err;
     }
   }
-  public async obtenerAlumnosAsignados(idEntrenador: string) {
-    return this.repoEntrenador.obtenerAlumnosAsignados(idEntrenador);
-  }
+ 
+  
 }

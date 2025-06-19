@@ -85,7 +85,7 @@ export default function DashboardPage() {
             )}
             {session.rol === 'entrenador' && (
               <>
-                <NavigationCard href="/entrenador/progreso" icon={<ChartBarIcon />} title="Registrar Progreso" description="Registra el progreso de tus alumnos asignados." />
+               
                 <NavigationCard href="/SolicitudesEntrenador" icon={<ChartBarIcon />} title="solicitudes" description="Registra el progreso de tus alumnos asignados." />
               </>
             )}
