@@ -10,4 +10,8 @@ export async function POST(req: NextRequest) {
     console.error('Error al aceptar solicitud:', error);
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Yoos

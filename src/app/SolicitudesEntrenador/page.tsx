@@ -16,7 +16,7 @@ export default function SolicitudesEntrenador() {
   const sessionStr = typeof window !== 'undefined' ? localStorage.getItem('session') : null;
   const session = sessionStr ? JSON.parse(sessionStr) : null;
   const idEntrenador = session?.idUsuario ?? '';
-
+  console.log(idEntrenador)
   useEffect(() => {
     async function cargarSolicitudes() {
       const res = await fetch('/api/solicitudes-entrenador', {

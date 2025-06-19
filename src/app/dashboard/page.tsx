@@ -35,7 +35,7 @@ const CheckCircleIcon = () => (
 export default function DashboardPage() {
   const [session, setSession] = useState<UserSession | null>(null);
   const router = useRouter();
-
+  
   useEffect(() => {
     const storedSession = localStorage.getItem('session');
     if (storedSession) {
