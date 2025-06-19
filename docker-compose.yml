@@ -12,6 +12,7 @@ services:
       - "${DB_PORT}:3306"  
     volumes:
       - db_data_nuevo:/var/lib/mysql  
+      - ./Gimnasio.sql:/docker-entrypoint-initdb.d/Gimnasio.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
