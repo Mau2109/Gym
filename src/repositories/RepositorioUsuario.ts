@@ -28,19 +28,22 @@ export class RepositorioUsuario {
           WHEN m.usuarioId IS NOT NULL THEN 'miembro'
           WHEN a.usuarioId IS NOT NULL THEN 'administrador'
           WHEN r.usuarioId IS NOT NULL THEN 'recepcionista'
+          WHEN e.usuarioId IS NOT NULL THEN 'entrenador'
           ELSE 'desconocido'
         END as rol
       FROM usuarios u
       LEFT JOIN miembros m ON u.idUsuario = m.usuarioId
       LEFT JOIN administradores a ON u.idUsuario = a.usuarioId
       LEFT JOIN recepcionistas r ON u.idUsuario = r.usuarioId
+      LEFT JOIN Entrenador e ON u.idUsuario = e.usuarioId -- <== Agregado aquí
       WHERE u.correoElectronico = ?
     `;
-
+  
     const [rows]: any[] = await pool.execute(sql, [email]);
     if (rows.length === 0) {
       return null;
     }
     return rows[0];
   }
+  
 }

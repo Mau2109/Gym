@@ -4,6 +4,18 @@ import { Miembro } from '../models/Miembro';
 import { v4 as uuidv4 } from 'uuid';
 
 export class RepositorioMiembro {
+  /**
+ * Obtiene el ID del miembro (miembros.id) a partir del usuarioId.
+ * @param usuarioId - El ID del usuario (usuarios.idUsuario).
+ * @returns El ID del miembro (miembros.id) o null si no existe.
+ */
+public async obtenerIdMiembroPorUsuarioId(usuarioId: string): Promise<string | null> {
+  const sql = 'SELECT id FROM miembros WHERE usuarioId = ?';
+  const [rows]: any[] = await pool.execute(sql, [usuarioId]);
+
+  if (rows.length === 0) return null;
+  return rows[0].id;
+}
 
   /**
    * Crea un nuevo Miembro y su Usuario asociado usando una transacción.

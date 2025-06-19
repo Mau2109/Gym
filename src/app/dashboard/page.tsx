@@ -7,7 +7,7 @@ import Link from 'next/link';
 interface UserSession {
   idUsuario: string;
   nombreCompleto: string;
-  rol: 'miembro' | 'administrador' | 'recepcionista';
+  rol: 'miembro' | 'administrador' | 'recepcionista' |'entrenador';
 }
 
 // --- Componentes de Iconos SVG para una mejor UI ---
@@ -20,7 +20,7 @@ const CheckCircleIcon = () => ( <svg xmlns="http://www.w3.org/2000/svg" classNam
 export default function DashboardPage() {
   const [session, setSession] = useState<UserSession | null>(null);
   const router = useRouter();
-
+  
   useEffect(() => {
     const storedSession = localStorage.getItem('session');
     if (storedSession) {
@@ -77,12 +77,19 @@ export default function DashboardPage() {
              {/* Opciones para Administradores */}
             {session.rol === 'administrador' && (
               <>
-                 <NavigationCard href="/registro" icon={<UserPlusIcon />} title="Registrar Usuarios" description="Dar de alta a miembros, recepcionistas y entrenadores." />
+                 <NavigationCard href="/registroEntrenador" icon={<UserPlusIcon />} title="Registrar Usuarios" description="Dar de alta a miembros, recepcionistas y entrenadores." />
                  <NavigationCard href="/NotificacionMantenimiento" icon={<CheckCircleIcon/>} title="Notificacion Mantenimiento" description="Informar sobre el equipos dañados." />
 
                  {/* Aquí se podrían añadir más tarjetas para el administrador en el futuro */}
               </>
             )}
+            {session.rol === 'entrenador' && (
+              <>
+                <NavigationCard href="/entrenador/progreso" icon={<ChartBarIcon />} title="Registrar Progreso" description="Registra el progreso de tus alumnos asignados." />
+                <NavigationCard href="/SolicitudesEntrenador" icon={<ChartBarIcon />} title="solicitudes" description="Registra el progreso de tus alumnos asignados." />
+              </>
+            )}
+
 
           </div>
         </div>
