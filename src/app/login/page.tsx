@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
 import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation'; // Hook para redireccionar
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const [correoElectronico, setCorreoElectronico] = useState('');
@@ -27,13 +27,13 @@ export default function LoginPage() {
       if (!response.ok) {
         throw new Error(data.message || 'Error al iniciar sesión.');
       }
-      
-      // Guardamos la información de la sesión en el localStorage del navegador
-      localStorage.setItem('session', JSON.stringify(data));
-      
-      // Redirigimos al nuevo panel principal (dashboard)
-      router.push('/dashboard');
 
+      // Guardar sesión en localStorage
+      localStorage.setItem('session', JSON.stringify(data));
+      localStorage.setItem('isAuthenticated', 'true');
+
+      // Redirigir al dashboard
+      router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -57,6 +57,7 @@ export default function LoginPage() {
               onChange={(e) => setCorreoElectronico(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
+              autoComplete="email"
             />
           </div>
           <div>
@@ -70,6 +71,7 @@ export default function LoginPage() {
               onChange={(e) => setContrasena(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
+              autoComplete="current-password"
             />
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
