@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
@@ -32,16 +32,16 @@ export default function AsistenciaPage() {
     }
 
     async function fetchClases() {
-      const response = await fetch('/api/inscripciones'); // Reutilizamos el endpoint que obtiene las clases
+      const response = await fetch('/api/inscripciones');
       const data = await response.json();
       setClases(data);
       if (data.length > 0) {
-        setClaseSeleccionada(data[0].idClase); // Seleccionar la primera por defecto
+        setClaseSeleccionada(data[0].idClase);
       }
     }
     fetchClases();
   }, [router]);
-  
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!session || !claseSeleccionada) return;
@@ -56,55 +56,62 @@ export default function AsistenciaPage() {
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
-      
       setMessage({ type: 'success', text: `¡Hola ${session.nombreCompleto}! Asistencia registrada con éxito.` });
-    
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message });
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   if (!session) return <p className="text-center mt-10">Cargando...</p>;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white p-8">
-      <div className="w-full max-w-lg bg-gray-800 rounded-xl shadow-2xl p-8 text-center">
-        <h1 className="text-4xl font-bold mb-2">Control de Asistencia</h1>
-        <p className="text-gray-400 mb-6">Bienvenido, {session.nombreCompleto}. Selecciona tu clase para registrar tu asistencia.</p>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-100 via-purple-200 to-indigo-100 p-6">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl p-8 text-center">
+        <h1 className="text-3xl font-extrabold text-purple-800 mb-2">Control de Asistencia</h1>
+        <p className="text-purple-600 mb-6">Bienvenido, {session.nombreCompleto}. Selecciona tu clase para registrar tu asistencia.</p>
+
+        <form onSubmit={handleSubmit} className="space-y-6 text-left">
           <div>
-            <label htmlFor="clase" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="clase" className="block text-sm font-semibold text-purple-800 mb-1">
               Clase de Hoy
             </label>
             <select
               id="clase"
               value={claseSeleccionada}
               onChange={(e) => setClaseSeleccionada(e.target.value)}
-              className="block w-full px-3 py-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="block w-full px-3 py-3 bg-purple-100 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              {clases.map(c => <option key={c.idClase} value={c.idClase}>{c.nombre} ({c.horario})</option>)}
+              {clases.map(c => (
+                <option key={c.idClase} value={c.idClase}>
+                  {c.nombre} ({c.horario})
+                </option>
+              ))}
             </select>
           </div>
-          
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading || !claseSeleccionada}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-500"
-            >
-              {isLoading ? 'Registrando...' : 'Confirmar Asistencia'}
-            </button>
-          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading || !claseSeleccionada}
+            className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-lg font-semibold shadow disabled:bg-gray-400"
+          >
+            {isLoading ? 'Registrando...' : 'Confirmar Asistencia'}
+          </button>
         </form>
 
         {message && (
-          <div className={`mt-6 p-4 rounded-md text-center text-lg font-semibold ${message.type === 'success' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}`}>
+          <div className={`mt-6 p-4 rounded-md text-lg font-semibold ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>
             {message.text}
           </div>
         )}
+
+        <button
+          onClick={() => router.push('/dashboard')}
+          className="mt-6 inline-block bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-5 py-2 rounded-lg shadow"
+        >
+          ← Volver al Dashboard
+        </button>
       </div>
     </main>
   );

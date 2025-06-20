@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 interface ProgresoFisico {
   idProgreso: string;
-  fechaRegistro: string; // La fecha viene como string
+  fechaRegistro: string;
   peso?: number;
   medidasCorporales?: { pecho?: number, cintura?: number, brazos?: number };
   porcentajeGrasa?: number;
@@ -78,71 +78,83 @@ export default function ProgresoPage() {
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
       
-      setMessage({ type: 'success', text: 'Progreso guardado exitosamente!' });
-      setHistorial([result.data, ...historial]); // Añadir el nuevo registro al inicio de la lista
-      setFormData({ peso: '', pecho: '', cintura: '', brazos: '', porcentajeGrasa: '', observaciones: '' }); // Limpiar formulario
-    
+      setMessage({ type: 'success', text: '✅ Progreso guardado exitosamente.' });
+      setHistorial([result.data, ...historial]);
+      setFormData({ peso: '', pecho: '', cintura: '', brazos: '', porcentajeGrasa: '', observaciones: '' });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      setMessage({ type: 'error', text: `❌ ${error.message}` });
     } finally {
       setIsLoading(false);
     }
   };
-  
-  if (!session) return <p className="text-center mt-10">Cargando...</p>;
+
+  if (!session) return <p className="text-center mt-10 text-indigo-600 font-semibold">Cargando sesión...</p>;
 
   return (
-    <main className="min-h-screen bg-gray-100 p-4 md:p-8">
+    <main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Columna del Formulario */}
-        <div className="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Registrar Nuevo Progreso</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Formulario */}
+        <div className="lg:col-span-1 bg-white p-6 rounded-xl shadow-md border border-purple-100">
+          <h2 className="text-2xl font-bold text-purple-800 mb-4">Registrar Progreso</h2>
+          <form onSubmit={handleSubmit} className="space-y-4 text-sm">
             <div>
-              <label htmlFor="peso" className="block text-sm font-medium text-gray-700">Peso (kg)</label>
-              <input type="number" step="0.5" name="peso" value={formData.peso} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+              <label htmlFor="peso" className="block font-medium text-gray-700">Peso (kg)</label>
+              <input type="number" step="0.5" name="peso" value={formData.peso} onChange={handleChange} className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-purple-400 focus:outline-none" />
             </div>
             <fieldset className="border p-4 rounded-md">
-              <legend className="text-sm font-medium text-gray-700 px-2">Medidas (cm)</legend>
-              <div className="grid grid-cols-3 gap-2">
-                <div><label htmlFor="pecho" className="text-xs">Pecho</label><input type="number" step="0.5" name="pecho" value={formData.pecho} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/></div>
-                <div><label htmlFor="cintura" className="text-xs">Cintura</label><input type="number" step="0.5" name="cintura" value={formData.cintura} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/></div>
-                <div><label htmlFor="brazos" className="text-xs">Brazos</label><input type="number" step="0.5" name="brazos" value={formData.brazos} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/></div>
+              <legend className="text-sm font-medium text-gray-700 px-2">Medidas Corporales (cm)</legend>
+              <div className="grid grid-cols-3 gap-3 mt-2">
+                <div>
+                  <label htmlFor="pecho" className="text-xs">Pecho</label>
+                  <input type="number" step="0.5" name="pecho" value={formData.pecho} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md px-2 py-1" />
+                </div>
+                <div>
+                  <label htmlFor="cintura" className="text-xs">Cintura</label>
+                  <input type="number" step="0.5" name="cintura" value={formData.cintura} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md px-2 py-1" />
+                </div>
+                <div>
+                  <label htmlFor="brazos" className="text-xs">Brazos</label>
+                  <input type="number" step="0.5" name="brazos" value={formData.brazos} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md px-2 py-1" />
+                </div>
               </div>
             </fieldset>
-             <div>
-              <label htmlFor="porcentajeGrasa" className="block text-sm font-medium text-gray-700">% Grasa Corporal</label>
-              <input type="number" step="0.5" name="porcentajeGrasa" value={formData.porcentajeGrasa} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+            <div>
+              <label htmlFor="porcentajeGrasa" className="block font-medium text-gray-700">% Grasa Corporal</label>
+              <input type="number" step="0.5" name="porcentajeGrasa" value={formData.porcentajeGrasa} onChange={handleChange} className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2" />
             </div>
             <div>
-              <label htmlFor="observaciones" className="block text-sm font-medium text-gray-700">Observaciones</label>
-              <textarea name="observaciones" rows={3} value={formData.observaciones} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+              <label htmlFor="observaciones" className="block font-medium text-gray-700">Observaciones</label>
+              <textarea name="observaciones" rows={3} value={formData.observaciones} onChange={handleChange} className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 resize-none"></textarea>
             </div>
-            <button type="submit" disabled={isLoading} className="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 disabled:bg-indigo-400">
+            <button type="submit" disabled={isLoading} className={`w-full py-2 rounded-md font-semibold text-white transition-colors ${isLoading ? 'bg-indigo-400' : 'bg-purple-600 hover:bg-purple-700'}`}>
               {isLoading ? 'Guardando...' : 'Guardar Progreso'}
             </button>
-            {message && <p className={`mt-2 text-sm ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>{message.text}</p>}
+            {message && <p className={`text-sm mt-2 ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>{message.text}</p>}
           </form>
         </div>
 
-        {/* Columna del Historial */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Historial de Progreso</h2>
-          <div className="space-y-4 max-h-[70vh] overflow-y-auto">
-            {historial.length > 0 ? historial.map(p => (
-              <div key={p.idProgreso} className="p-4 border rounded-md">
-                <p className="font-semibold text-gray-700">{new Date(p.fechaRegistro).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm mt-2">
+        {/* Historial */}
+        <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-md border border-indigo-100">
+          <h2 className="text-2xl font-bold text-indigo-800 mb-4">Historial de Progreso</h2>
+          <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-300">
+            {historial.length > 0 ? historial.map((p) => (
+              <div key={p.idProgreso} className="p-4 bg-gray-50 rounded-md border border-gray-200 shadow-sm">
+                <p className="font-semibold text-purple-700">{new Date(p.fechaRegistro).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm mt-2 text-gray-700">
                   {p.peso && <p><strong>Peso:</strong> {p.peso} kg</p>}
                   {p.porcentajeGrasa && <p><strong>Grasa:</strong> {p.porcentajeGrasa}%</p>}
                   {p.medidasCorporales?.pecho && <p><strong>Pecho:</strong> {p.medidasCorporales.pecho} cm</p>}
                   {p.medidasCorporales?.cintura && <p><strong>Cintura:</strong> {p.medidasCorporales.cintura} cm</p>}
                   {p.medidasCorporales?.brazos && <p><strong>Brazos:</strong> {p.medidasCorporales.brazos} cm</p>}
                 </div>
-                {p.observaciones && <p className="text-sm text-gray-600 mt-2"><em>"{p.observaciones}"</em></p>}
+                {p.observaciones && (
+                  <p className="text-xs text-gray-500 mt-2 italic">“{p.observaciones}”</p>
+                )}
               </div>
-            )) : <p>No hay registros de progreso todavía. ¡Añade uno para empezar!</p>}
+            )) : (
+              <p className="text-sm text-gray-600">No hay registros de progreso todavía. ¡Añade uno para comenzar!</p>
+            )}
           </div>
         </div>
       </div>

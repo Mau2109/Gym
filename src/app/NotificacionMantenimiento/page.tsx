@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 
@@ -13,9 +13,8 @@ interface Proveedor {
   nombre: string;
 }
 
-// Iconos SVG para UI
 const BellIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
   </svg>
 );
@@ -106,9 +105,7 @@ export default function NotificacionMantenimientoPage() {
       return;
     }
     try {
-      const res = await fetch(
-        `/api/equipos?tipo=${encodeURIComponent(equipo?.nombre ?? "")}&sucursalId=${sucursalActual}`
-      );
+      const res = await fetch(`/api/equipos?tipo=${encodeURIComponent(equipo?.nombre ?? "")}&sucursalId=${sucursalActual}`);
       const data = await res.json();
       if (data.equipos.length > 0) {
         setReemplazos(data.equipos);
@@ -159,41 +156,37 @@ export default function NotificacionMantenimientoPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6 max-w-3xl mx-auto font-sans">
+    <main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-6 max-w-3xl mx-auto font-sans">
       <header className="flex items-center space-x-3 mb-6">
         <BellIcon />
-        <h1 className="text-3xl font-bold text-indigo-700">Notificación de Mantenimiento</h1>
+        <h1 className="text-3xl font-bold text-purple-800">Notificación de Mantenimiento</h1>
       </header>
 
-      <section className="bg-white rounded-lg shadow p-6 mb-6">
-        <p className="text-gray-700 text-lg mb-3">
+      <section className="bg-white rounded-xl shadow-xl p-6 space-y-6 border border-purple-100">
+        <p className="text-gray-700 text-lg">
           Se ha recibido una notificación de daño en el equipo con ID:{" "}
-          <strong className="text-indigo-600">{equipoId}</strong>
+          <strong className="text-purple-600">{equipoId}</strong>
         </p>
 
         {/* Asignar proveedor */}
         {!proveedorAsignado && !solicitudSucursal && !equipoDadoDeAlta && (
-          <div className="mb-6">
-            <label className="block mb-2 font-semibold text-gray-700">Seleccionar proveedor para reparación:</label>
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700">Seleccionar proveedor:</label>
             <select
               value={proveedorSeleccionado ?? ""}
               onChange={(e) => setProveedorSeleccionado(Number(e.target.value))}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-purple-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
             >
-              <option value="">-- Seleccionar proveedor --</option>
+              <option value="">-- Selecciona un proveedor --</option>
               {proveedores.map((prov) => (
-                <option key={prov.idProveedor} value={prov.idProveedor}>
-                  {prov.nombre}
-                </option>
+                <option key={prov.idProveedor} value={prov.idProveedor}>{prov.nombre}</option>
               ))}
             </select>
             <button
               onClick={manejarAsignacionProveedor}
               disabled={!proveedorSeleccionado}
-              className={`mt-4 w-full py-2 rounded font-semibold text-white transition-colors ${
-                proveedorSeleccionado
-                  ? "bg-indigo-600 hover:bg-indigo-700"
-                  : "bg-indigo-300 cursor-not-allowed"
+              className={`mt-4 w-full py-2 rounded-lg font-semibold text-white transition-all ${
+                proveedorSeleccionado ? "bg-purple-600 hover:bg-purple-700" : "bg-purple-300 cursor-not-allowed"
               }`}
             >
               Asignar Proveedor
@@ -203,45 +196,35 @@ export default function NotificacionMantenimientoPage() {
 
         {/* Reparable o no */}
         {proveedorAsignado && equipoReparable === null && !solicitudSucursal && !equipoDadoDeAlta && (
-          <div className="flex space-x-4 justify-center mb-6">
-            <button
-              onClick={() => manejarSimulacion(true)}
-              className="flex-1 bg-green-600 text-white font-semibold py-2 rounded shadow hover:bg-green-700 transition-colors"
-            >
+          <div className="flex gap-4 justify-center">
+            <button onClick={() => manejarSimulacion(true)} className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold shadow">
               ✅ Reparar equipo
             </button>
-            <button
-              onClick={() => manejarSimulacion(false)}
-              className="flex-1 bg-red-600 text-white font-semibold py-2 rounded shadow hover:bg-red-700 transition-colors"
-            >
+            <button onClick={() => manejarSimulacion(false)} className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg font-semibold shadow">
               ❌ No reparable
             </button>
           </div>
         )}
 
-        {/* Reemplazos disponibles */}
-        {reemplazos.length > 0 && !equipoDadoDeAlta && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-3 text-indigo-700">Equipos disponibles para reemplazo:</h2>
+        {/* Reemplazos */}
+        {reemplazos.length > 0 && (
+          <div>
+            <h2 className="text-xl font-bold text-purple-700 mb-2">Reemplazos disponibles:</h2>
             <select
               value={equipoSeleccionado ?? ""}
               onChange={(e) => setEquipoSeleccionado(Number(e.target.value))}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 mb-4"
+              className="w-full border border-purple-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 mb-3"
             >
-              <option value="">-- Seleccionar equipo --</option>
-              {reemplazos.map((eq) => (
-                <option key={eq.idEquipo} value={eq.idEquipo}>
-                  #{eq.idEquipo} - {eq.nombre}
-                </option>
+              <option value="">-- Selecciona un equipo --</option>
+              {reemplazos.map(eq => (
+                <option key={eq.idEquipo} value={eq.idEquipo}>#{eq.idEquipo} - {eq.nombre}</option>
               ))}
             </select>
             <button
               onClick={manejarReemplazo}
               disabled={!equipoSeleccionado}
-              className={`w-full py-2 rounded font-semibold text-white transition-colors ${
-                equipoSeleccionado
-                  ? "bg-purple-600 hover:bg-purple-700"
-                  : "bg-purple-300 cursor-not-allowed"
+              className={`w-full py-2 rounded-lg font-semibold text-white ${
+                equipoSeleccionado ? "bg-indigo-600 hover:bg-indigo-700" : "bg-indigo-300 cursor-not-allowed"
               }`}
             >
               Confirmar Reemplazo
@@ -251,45 +234,39 @@ export default function NotificacionMantenimientoPage() {
 
         {/* Solicitar a otra sucursal */}
         {solicitudSucursal && !equipoDadoDeAlta && (
-          <div>
-            <button
-              onClick={manejarSolicitudOtraSucursal}
-              className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded shadow transition-colors"
-            >
-              🚚 Solicitar equipo a otra sucursal
-            </button>
-          </div>
+          <button
+            onClick={manejarSolicitudOtraSucursal}
+            className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg shadow"
+          >
+            🚚 Solicitar a otra sucursal
+          </button>
         )}
 
-        {/* Tabla equipo */}
+        {/* Tabla de equipo */}
         {equipo && equipoReparable !== true && !equipoDadoDeAlta && (
-          <table className="w-full border-collapse border border-gray-300 rounded mt-6 text-left">
-            <thead className="bg-indigo-100">
+          <table className="w-full border text-left mt-6 border-gray-200">
+            <thead className="bg-purple-100 text-purple-800">
               <tr>
-                <th className="border border-gray-300 px-4 py-2">ID</th>
-                <th className="border border-gray-300 px-4 py-2">Nombre</th>
-                <th className="border border-gray-300 px-4 py-2">Estado</th>
-                <th className="border border-gray-300 px-4 py-2">Reparado</th>
+                <th className="px-4 py-2">ID</th>
+                <th className="px-4 py-2">Nombre</th>
+                <th className="px-4 py-2">Estado</th>
+                <th className="px-4 py-2">¿Reparado?</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="odd:bg-white even:bg-indigo-50">
-                <td className="border border-gray-300 px-4 py-2">{equipo.idEquipo}</td>
-                <td className="border border-gray-300 px-4 py-2">{equipo.nombre}</td>
-                <td className="border border-gray-300 px-4 py-2">{equipo.estado}</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {equipoReparable === null ? "-" : equipoReparable ? "Sí" : "No"}
-                </td>
+              <tr className="bg-white hover:bg-purple-50 transition-colors">
+                <td className="px-4 py-2">{equipo.idEquipo}</td>
+                <td className="px-4 py-2">{equipo.nombre}</td>
+                <td className="px-4 py-2">{equipo.estado}</td>
+                <td className="px-4 py-2">{equipoReparable === null ? "-" : equipoReparable ? "Sí" : "No"}</td>
               </tr>
             </tbody>
           </table>
         )}
 
-        {/* Mensajes */}
+        {/* Mensaje final */}
         {mensaje && (
-          <p className="mt-6 p-3 bg-indigo-100 text-indigo-800 rounded font-medium shadow-inner">
-            {mensaje}
-          </p>
+          <p className="mt-4 p-4 bg-purple-100 text-purple-800 rounded-lg shadow-inner text-sm font-medium">{mensaje}</p>
         )}
       </section>
     </main>

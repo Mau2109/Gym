@@ -6,6 +6,7 @@ export async function crearSolicitudEntrenador(
   fecha: Date,
   estado = 'pendiente'
 ) {
+  console.log(miembro_id,entrenador_id)
   await db.query(
     'INSERT INTO SolicitudEntrenador (miembro_id, entrenador_id, fecha, estado) VALUES (?, ?, ?, ?)',
     [miembro_id, entrenador_id, fecha, estado]
@@ -31,7 +32,13 @@ export async function existeSolicitudPendiente(miembro_id: string, usuarioIdEntr
   return rows.length > 0;
 }
 
-
+export async function existeSolicitudPendiente2(miembro_id: string, entrenador_id: number): Promise<boolean> {
+  const [rows]: any = await db.query(
+    'SELECT id FROM SolicitudEntrenador WHERE miembro_id = ? AND entrenador_id = ? AND estado = "pendiente"',
+    [miembro_id, entrenador_id]
+  );
+  return rows.length > 0;
+}
   export async function obtenerSolicitudesPendientesPorEntrenador(usuarioIdEntrenador: string) {
     const [rows] = await db.query(
       `
